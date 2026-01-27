@@ -1,0 +1,77 @@
+[
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "GetAll",
+    "RelativePath": "api/Polls",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [],
+    "EndpointName": "Polls"
+  },
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "Add",
+    "RelativePath": "api/Polls",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "poll",
+        "Type": "SurveyBasket.Models.Poll",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "Update",
+    "RelativePath": "api/Polls",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "poll",
+        "Type": "SurveyBasket.Models.Poll",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "GetById",
+    "RelativePath": "api/Polls/{Id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "Delete",
+    "RelativePath": "api/Polls/{Id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "Id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
