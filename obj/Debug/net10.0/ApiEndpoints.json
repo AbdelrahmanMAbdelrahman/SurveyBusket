@@ -20,8 +20,8 @@
     "Parameters": [
       {
         "Name": "poll",
-        "Type": "SurveyBasket.Models.Poll",
-        "IsRequired": false
+        "Type": "SurveyBasket.Contracts.Requests.PollRequest",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -35,8 +35,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "poll",
-        "Type": "SurveyBasket.Models.Poll",
+        "Name": "req",
+        "Type": "SurveyBasket.Contracts.Requests.PollRequest",
         "IsRequired": false
       }
     ],
@@ -72,6 +72,16 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SurveyBasket.Controllers.PollsController",
+    "Method": "TestStudent",
+    "RelativePath": "api/Polls/test",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

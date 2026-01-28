@@ -5,7 +5,7 @@ namespace SurveyBasket.Services
     public class PollService : IPollService
     {
 
-        static List<Poll> Polls = [
+      public  static List<Poll> Polls = [
           new Poll{
             ID=1,
             Title="my Polls",

@@ -161,3 +161,6 @@ C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\obj\Debug\net10.0\refint\S
 C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\obj\Debug\net10.0\SurveyBasket.pdb
 C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\obj\Debug\net10.0\SurveyBasket.genruntimeconfig.cache
 C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\obj\Debug\net10.0\ref\SurveyBasket.dll
+C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\bin\Debug\net10.0\Mapster.dll
+C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\bin\Debug\net10.0\Mapster.Core.dll
+C:\Users\abmoa\source\repos\SurveyBasket\SurveyBasket\bin\Debug\net10.0\Mapster.DependencyInjection.dll
