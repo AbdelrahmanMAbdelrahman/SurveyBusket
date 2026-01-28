@@ -54,6 +54,7 @@ namespace SurveyBasket.Controllers
                 NoContent() :
               NotFound("could not find poll");
         }
+
         [HttpDelete("{Id}")]
         public IActionResult Delete (int Id)
         {
