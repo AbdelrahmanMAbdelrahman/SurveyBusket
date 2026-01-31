@@ -1,66 +1,87 @@
 ﻿
 
+using FluentValidation;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SurveyBasket.Contracts.Requests;
 using SurveyBasket.Contracts.Responses;
 using SurveyBasket.Mapping;
 using SurveyBasket.Models;
 using SurveyBasket.Services;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 
 namespace SurveyBasket.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollsController(IPollService polls,IMapper mapper) : ControllerBase
+    public class PollsController(IPollService polls) : ControllerBase
     {
       
         [HttpGet(Name ="Polls")]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken token)
         {
-            var Polls = polls.GetAll();
+            var Polls =await polls.GetAll(token);
             IEnumerable<PollResponse> res = Polls.Adapt<IEnumerable< PollResponse>>();//mapper.Map<List<PollResponse>>(Polls);
             return Polls.Count()>0?Ok(res) :NotFound();
         }
         [HttpGet("{Id}")]
-        public IActionResult GetById(int Id)
+        public async Task<IActionResult> GetById(int Id, CancellationToken token)
         {
-            Poll? poll = polls.Get(Id) ;
-            PollResponse res=mapper.Map<PollResponse>(poll);
+           Poll poll =await polls.Get(Id,   token) ;
+            PollResponse res=poll.Adapt<PollResponse>();
             return poll == null ? NotFound() : Ok(res);
         }
 
         [HttpPost("")]
-        public  IActionResult  Add([FromBody] PollRequest poll)
+        public  async Task<IActionResult>  Add([FromBody] PollRequest req,CancellationToken token
+            //, [FromServices]IValidator<PollRequest>pollValidator
+            )
         {
-            if (poll == null) BadRequest("fill poll data");
-             Poll req=mapper.Map<Poll>(poll);
-            req.ID = PollService.Polls.Count() + 1;
-            Poll? newPoll= polls.Create(req);
-            PollResponse res=mapper.Map<PollResponse>(newPoll);
-            return newPoll != null ?
-                CreatedAtAction(nameof(GetById), new { ID = newPoll.ID }, res):
+            //var validationResult=pollValidator.Validate(poll);
+            //if (!validationResult.IsValid)
+            //{
+            //    var modelState =new ModelStateDictionary();
+            //    foreach (var item in validationResult.Errors)
+            //    {
+            //        modelState.AddModelError(item.PropertyName, item.ErrorMessage);
+            //    }
+            //    return ValidationProblem(modelState);
+            //}
+             
+             Poll poll=req.Adapt<Poll>();
+            
+             await polls.Create(poll,token);
+            PollResponse res=poll.Adapt<PollResponse>();
+            return await polls.commit() ?
+                CreatedAtAction(nameof(GetById), new { ID = poll.ID }, res):
                 BadRequest("could not create poll");
 
         }
 
         [HttpPut("")]
-        public IActionResult Update(PollRequest? req)
-        {Poll poll=mapper.Map<Poll>(req);
+        public async Task<IActionResult> Update(int ID,PollRequest? req,CancellationToken token)
+        {Poll poll=req.Adapt<Poll>();
             if (poll==null)BadRequest("fill poll data");
 
-            return polls.Update(poll)?
+            await polls.Update(ID,poll,token);
+            return await polls.commit()?
                 NoContent() :
               NotFound("could not find poll");
         }
 
         [HttpDelete("{Id}")]
-        public IActionResult Delete (int Id)
+        public async Task<IActionResult> Delete (int Id,CancellationToken token)
         {
-            return polls.Delete(Id)?
+            await polls.Delete(Id,token);
+            return await polls.commit()?
                 NoContent() :
               NotFound("could not find poll");
+        }
+        [HttpPost("test")]
+        public IActionResult TestStudent([FromBody]Student std) {
+            return Ok("data is valid");
         }
         [HttpGet("test")]
         public IActionResult TestStudent()
@@ -77,6 +98,12 @@ namespace SurveyBasket.Controllers
             };
             StudentResponse res = student.Adapt<StudentResponse>();
             return Ok(res);
+        }
+        [HttpPut("{Id}/Publish")]
+        public async Task<IActionResult> Publish(int Id,CancellationToken token)
+        {
+            await polls.Publish(Id,token);
+            return await polls.commit() ? NoContent() : NotFound("no poll found for this id");
         }
     }
 }

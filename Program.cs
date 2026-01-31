@@ -1,25 +1,13 @@
-using Mapster;
-using MapsterMapper;
-using Microsoft.EntityFrameworkCore;
+
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using SurveyBasket.Data;
-using SurveyBasket.Services;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
-string?ConnectionString = builder.Configuration["ConnectionStrings:ConnectionString"];
-builder.Services.AddDbContext<DatabaseContext>(option => option.UseSqlServer(ConnectionString));
-builder.Services.AddScoped<IPollService, PollService>();
-builder.Services.AddMapster();
-var mapConfig = TypeAdapterConfig.GlobalSettings;
-mapConfig.Scan(Assembly.GetExecutingAssembly());
-builder.Services.AddSingleton<IMapper>(new Mapper(mapConfig));
+builder.Services.AddDependencies(builder.Configuration);
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>().AddEntityFrameworkStores<DatabaseContext>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,11 +17,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     //app.MapOpenApi();
 }
-
+app.MapIdentityApi<ApplicationUser>();
 app.UseHttpsRedirection();//security
 
 app.UseAuthorization();
-
+app.UseCors("myPolicy");
 app.MapControllers();
 
 app.Run();
+
+

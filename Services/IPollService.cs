@@ -1,14 +1,18 @@
-﻿using SurveyBasket.Models;
+﻿using SurveyBasket.Contracts.Requests;
+using SurveyBasket.Contracts.Responses;
+using SurveyBasket.Models;
 
 namespace SurveyBasket.Services
 {
     public interface IPollService
     {
-        IEnumerable<Poll> GetAll();
-        Poll? Get(int Id);
-        Poll? Create(Poll poll);
+        Task<IEnumerable<Poll>> GetAll(CancellationToken token);
+       Task< Poll>? Get(int Id,CancellationToken token);
+       Task  Create(Poll poll,CancellationToken token);
 
-        bool Update(Poll poll);
-        bool Delete(int Id);
+       Task Update(int ID ,Poll poll,CancellationToken token);
+       Task Delete(int Id, CancellationToken token);
+        Task Publish(int Id, CancellationToken token);
+         Task<bool> commit();
     }
 }

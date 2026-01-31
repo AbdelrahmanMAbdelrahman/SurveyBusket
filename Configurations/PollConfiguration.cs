@@ -1,0 +1,16 @@
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace SurveyBasket.Configurations
+{
+    public class PollConfiguration : IEntityTypeConfiguration<Poll>
+    {
+        public void Configure(EntityTypeBuilder<Poll> builder)
+        {
+           builder.HasIndex(p=>p.Title).IsUnique();
+            builder.Property(p => p.Title).IsRequired().HasMaxLength(200);
+            builder.Property(p => p.Description).HasMaxLength(1000);
+            builder.Property(p => p.IsPublished).HasDefaultValue(false);
+           
+        }
+    }
+}
